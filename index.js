@@ -3,8 +3,10 @@ const app = express();
 const cors = require('cors');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const multer = require('multer');
-const PORT = 5000;
+require('dotenv').config();
+const port = process.env.PORT || 5000;
 
+// middlewares
 app.use(cors());
 app.use(express.json());
 
@@ -13,7 +15,7 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 // MongoDB connection
-const uri = "mongodb+srv://seopage1:Z7LTYmLYzofEN80c@cluster0.yyrxfdz.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.yyrxfdz.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 const client = new MongoClient(uri, {
     serverApi: {
@@ -81,6 +83,6 @@ app.get('/', (req, res) => {
     res.send('Hello World!');
 })
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port: ${PORT}`);
+app.listen(port, () => {
+    console.log(`Server is running on port: ${port}`);
 });
